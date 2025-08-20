@@ -1,17 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './HomePage';
-import Register from './Register';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
+import PostList from "./PostList";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<PostList />} />
       </Routes>
     </Router>
   );

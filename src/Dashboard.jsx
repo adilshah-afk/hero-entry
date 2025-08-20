@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PostForm from "./PostForm"; // import the PostForm component
+// import PostList from "./PostList"; // import the PostList component
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -10,12 +12,15 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
       try {
         const res = await axios.get("http://localhost:5000/api/auth/profile", {
-          headers: { Authorization: token },
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ correct format
+          },
         });
 
         console.log("User data fetched:", res.data);
         setUser(res.data);
       } catch (err) {
+        console.error(err);
         setError("Access denied or session expired.");
       }
     };
@@ -31,6 +36,11 @@ const Dashboard = () => {
     return <p>Loading profile...</p>;
   }
 
+  const handlePostCreated = (newPost) => {
+    // When a new post is created, update the posts list in the dashboard
+    console.log("New post created:", newPost);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-2xl mx-auto bg-gray-800 border border-yellow-500 p-6 rounded-lg shadow-lg">
@@ -42,7 +52,7 @@ const Dashboard = () => {
           Here's your secret identity profile:
         </p>
 
-        <div className="mt-4 space-y-2">
+        <div className="m-10 space-y-2">
           <p>
             <span className="text-yellow-400 font-semibold">Name:</span>{" "}
             {user.name || "Unknown"}
@@ -60,6 +70,12 @@ const Dashboard = () => {
             {user.race || "Unknown Entity"}
           </p>
         </div>
+
+        {/* Post Form */}
+        <PostForm onPostCreated={handlePostCreated} />
+
+        {/* Post List
+        <PostList /> */}
       </div>
     </div>
   );
